@@ -51,7 +51,7 @@ const background = document.getElementById("background");
 
 /////Stored Prompts/////
 const winConditionsPrompt = () => {
-    promptArea.innerHTML = `<span class="altH2">Win Conditions:</span><br>Buy all items and earn $1000.`
+    promptArea.innerHTML = `<span class="altH1">Win Conditions:</span><br>Buy all items and earn $1000.`
 }
 const howToEquipPrompt = () => {
     promptArea.innerHTML = `Click an inventory item to equip it,<br>Then click the grass to begin landscaping.`
