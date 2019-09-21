@@ -1,12 +1,17 @@
 /* Main Containers */
 html {
     height: 100%;
+    background-color: rgb(10, 30, 20); 
 }
 
 body {
     min-height: 100%; 
     margin: 0;
-    min-width: 800px;
+    /* min-width: 800px; */
+    border: solid 9px rgb(10, 30, 20);
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 /* Secondary Containers */
@@ -14,19 +19,18 @@ body {
     background-image: url("img/bg.jpg");
     background-size: cover; 
     background-position: center;
-    margin-left: 8px;
     background-repeat: no-repeat;
-    border-top: solid 8px rgb(10, 30, 20);
-    border-bottom: solid 8px rgb(10, 30, 20);
+    border-top: solid 6px rgb(10, 30, 20);
+    border-bottom: solid 6px rgb(10, 30, 20);
+
     transition-duration: 1s;
     -webkit-transition-duration: 1s;	
     -moz-transition-duration: 1s;
 }
 #interface, #scoreboard {
-    background-color: rgb(130, 90, 60);
-    margin-left: 8px;
+    background-color: rgb(105, 70, 50);
     background-size: cover;
-    background-image: url("img/bricktexture.png")
+    background-image: url("img/bricktexture.png");
 }
 #interface {
     flex: .5;
@@ -36,13 +40,18 @@ body {
 }
 #shop, #inventory {
     flex: .25;
-    background-color: rgb(10, 65, 40);
-    outline: solid 8px rgb(10, 30, 20);
+    background-color: rgb(10, 45, 30);
     display: flex;
     flex-direction: column;
     padding: 0 6px;
     background-size: cover;
-    background-image: url("img/grasstexture.png")
+    background-image: url("img/grasstexture.png");
+}
+#shop {
+    border-right: solid 6px rgb(10, 30, 20);
+}
+#inventory {
+    border-left: solid 6px rgb(10, 30, 20);
 }
 
 /* Flex */
@@ -68,7 +77,6 @@ body {
     background-size: cover; 
     background-repeat: no-repeat;
     background-position: bottom;
-    margin-right: 8px;
     background-image: url("img/grass.png");
 }
 
@@ -136,26 +144,52 @@ h2 {
 }
 
 /* @Media */
-@media (min-width: 1100px) {
-    h1 {
-        font-size: 24px;
-    }
-    h2 {
-        font-size: 18px;
-    }
-    .altH1 {
-        font-size: 30px;
-    }
-}
 
-@media (min-width: 1400px) {
-    h1 {
+@media (min-width: 1000px) {
+    h1,.altH1 {
         font-size: 27px;
     }
-    h2 {
+    h2,.altH2 {
         font-size: 21px;
     }
-    .altH1 {
+    .title {
         font-size: 33px;
     }
 }
+@media (max-width: 800px) {
+    h1,.altH1 {
+        font-size: 15px;
+    }
+    h2,.altH2 {
+        font-size: 9px;
+    }
+    .title {
+        font-size: 21px;
+    } 
+    .circle {
+        width: 90px;
+        height: 90px;
+    }
+    #shop, #inventory {
+        flex: .20;
+    }
+    #scoreboard {
+        line-height: 35px;
+    }
+}
+@media (max-width: 600px) {
+    h1,.altH1 {
+        font-size: 11px;
+    }
+    .title {
+        font-size: 18px;
+    } 
+    .circle {
+        width: 60px;
+        height: 60px;
+    }
+    #shop, #inventory {
+        flex: .10;
+    }
+}
+
