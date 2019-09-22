@@ -80,7 +80,7 @@ const blankPrompt = () => {
     
 /////Functions/////
 
-const start = () => {   
+const start = () => {  
     itemsOwned += 1; 
     lawnsCutText.innerHTML = `Lawns Cut: ${lawnsCut}`;
     cashText.innerHTML = `Cash: $${cash}/$1000`;
@@ -90,14 +90,25 @@ const start = () => {
     itemToInventory(teeth);
     nextItemIndex += 1; 
     grass.addEventListener("click", mowGrass);
+    grass.style.opacity = 0; 
+    setTimeout(grassGrowAtStart, 1500);
     noClickAtStart();
     setTimeout(noClickAtStart, 6000);
     setTimeout(winConditionsPrompt, 3000);
-    setTimeout(howToEquipPrompt, 6000);
-    
+    setTimeout(howToEquipPrompt, 6000);  
 }
 
-const noClickAtStart =() => {
+const grassGrowAtStart = () => {
+    grass.classList.toggle("unMow"); 
+    grass.style.opacity = 100;
+    const undueGrassSettings = () => {
+        grass.classList.remove("unMow"); 
+        grass.style.opacity = null;
+    }
+    setTimeout(undueGrassSettings, 2500);
+}
+
+const noClickAtStart = () => {
     for (let i = 0; i < 5; i++){
         document.getElementsByClassName("circle")[i].classList.toggle("noclick");
     }
@@ -162,15 +173,16 @@ const mowGrass = () => {
     }
     const unMowGrass = (object) => {
             grass.classList.toggle("unMow");
-            setTimeout(noClickGrass, 700);   
             grass.classList.remove("mow"); 
+            setTimeout(noClickGrass, 500); 
+            
         }
     if (document.getElementsByClassName("equip")[0]){
         blankPrompt();
         grass.classList.remove("unMow");
         grass.classList.toggle("noclick");
         grass.classList.toggle("mow");
-        setTimeout(updateScore, 500);
+        setTimeout(updateScore, 700);
         setTimeout(unMowGrass, 1000);  
         setTimeout(checkForWin, 1000);  
     } else {
