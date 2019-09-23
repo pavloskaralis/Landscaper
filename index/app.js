@@ -82,13 +82,13 @@ const blankPrompt = () => {
 
 const start = () => {  
     itemsOwned += 1; 
+    nextItemIndex += 1; 
     lawnsCutText.innerHTML = `Lawns Cut: ${lawnsCut}`;
     cashText.innerHTML = `Cash: $${cash}/$1000`;
     itemsOwnedText.innerHTML = `Items: ${itemsOwned}/5`; 
     promptArea.innerHTML = `Welcome to: <span class="title">LANDSCAPER</span>`; 
     itemToShop(razor, 0);
     itemToInventory(teeth);
-    nextItemIndex += 1; 
     grass.addEventListener("click", mowGrass);
     grass.style.opacity = 0; 
     setTimeout(grassGrowAtStart, 1500);
@@ -121,14 +121,7 @@ const itemToInventory = (object) => {
     inventoryItem.setAttribute("data-earningPower", object.earningPower);
     inventoryItem.setAttribute("src", object.image);
     inventorySlots.appendChild(inventoryItem); 
-
-    const equipItem = () => {
-        if(document.getElementsByClassName("equip")[0]){
-               document.getElementsByClassName("equip")[0].classList.toggle("equip");
-           }
-           inventoryItem.classList.toggle("equip");   
-     }
-    inventoryItem.addEventListener("click",equipItem);
+    inventoryItem.addEventListener("click",() => equipItem(inventoryItem));
 
     let inventoryItemText = document.createElement("h2");
     inventoryItemText.innerHTML = `${object.text} <span class="altH2"> +$${object.earningPower}</span>`;
@@ -139,43 +132,49 @@ const itemToInventory = (object) => {
     inventorySlots.appendChild(divTwo); 
 }
 
+const equipItem = (inventoryItem) => {
+    if(document.getElementsByClassName("equip")[0]){
+           document.getElementsByClassName("equip")[0].classList.toggle("equip");
+       }
+       inventoryItem.classList.toggle("equip");   
+ }
+
 const itemToShop = (object, shopIndex) => {     
     let shopItem = document.getElementsByClassName("circle")[shopIndex];
-    shopItem.setAttribute("src", object.image);
-
-    const buyItem = () => {
-        let nextItem = objectArray[nextItemIndex];
-        if (cash < object.value) {
-            notEnoughMoneyPrompt();
-        } else if (cash >= object.value) {
-            itemToInventory(nextItem);
-            shopItem.classList.toggle("noclick");
-            shopItem.setAttribute("src","img/empty.jpg");
-            document.getElementsByTagName("h2")[nextItemIndex - 1].innerHTML = `${object.text} <span class="altH2">Sold`;
-            nextItemIndex += 1; 
-            itemsOwned +=1;
-            itemsOwnedText.innerHTML = `Items: ${itemsOwned}/5`; 
-            cash -= object.value;
-            cashText.innerHTML = `Cash: $${cash}/$1000`;
-            promptArea.innerHTML = `You have unlocked: <span class="title">${object.text}</span>`;
-            itemToShop(objectArray[nextItemIndex], nextItemIndex - 1);   
-        }
-    }       
-    shopItem.addEventListener("click",buyItem);
+    shopItem.setAttribute("src", object.image);     
+    shopItem.addEventListener("click",() => buyItem(shopItem));
 
     let inventoryItemText = document.getElementsByTagName("h2")[shopIndex];
     inventoryItemText.innerHTML = `${object.text} <span class="altH2">-$${object.value}</span>`;
 }
 
+const buyItem = (shopItem) => {
+    let nextItem = objectArray[nextItemIndex];
+    if (cash < nextItem.value) {
+        notEnoughMoneyPrompt();
+    } else if (cash >= nextItem.value) {
+        itemToInventory(nextItem);
+        shopItem.classList.toggle("noclick");
+        shopItem.setAttribute("src","img/empty.jpg");
+        document.getElementsByTagName("h2")[nextItemIndex - 1].innerHTML = `${nextItem.text} <span class="altH2">Sold`;
+        nextItemIndex += 1; 
+        itemsOwned +=1;
+        itemsOwnedText.innerHTML = `Items: ${itemsOwned}/5`; 
+        cash -= nextItem.value;
+        cashText.innerHTML = `Cash: $${cash}/$1000`;
+        promptArea.innerHTML = `You have unlocked: <span class="title">${nextItem.text}</span>`;
+        itemToShop(objectArray[nextItemIndex], nextItemIndex - 1);   
+    }
+}  
+
 const mowGrass = () => {
     const noClickGrass = () => {
         grass.classList.remove("noclick");
     }
-    const unMowGrass = (object) => {
+    const unMowGrass = () => {
             grass.classList.toggle("unMow");
             grass.classList.remove("mow"); 
-            setTimeout(noClickGrass, 500); 
-            
+            setTimeout(noClickGrass, 500);        
         }
     if (document.getElementsByClassName("equip")[0]){
         blankPrompt();
